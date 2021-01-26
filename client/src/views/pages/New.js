@@ -35,7 +35,7 @@ class New extends React.Component {
             name='title'
             label='Title'
             placeholder='Spit out your idea'
-            component={this.renderTextField}
+            component={ this.renderTextField }
           />
 
           <button type="submit" disabled={submitting}>

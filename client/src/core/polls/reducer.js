@@ -62,14 +62,13 @@ export function pollReducer(state = initialState, action = {}) {
       // check result
       poll = payload.poll || null;
       message = payload.message || null;
-      // polls = poll;
-      console.log(state.all.polls);
+      polls = getListWithItem(state.all.polls, poll);
       return {
         all: {
-          loading: false, error: null, polls: getListWithItem(state.all.polls, poll)
+          loading: false, error: null, polls
         }, 
         active: {
-          loading: false, error: null, message: null, poll: null
+          loading: false, error: null, message: message, poll: null
         }
       };
     

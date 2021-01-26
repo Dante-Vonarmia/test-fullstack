@@ -7,10 +7,9 @@ export function getPollsApi() {
 };
 
 export function postPollApi(body) {
-	console.log(body);
   return requestApi(`${APP_URL}/api/poll/create`, requestOpts('POST', body));
 };
 
 export function updatePollVoteApi(pollId, body) {
-  return requestApi(`${APP_URL}/api/poll/${pollId}/vote`, requestOpts('PUT', body));
+  return requestApi(`${APP_URL}/api/poll/vote?${pollId}`, requestOpts('PUT', body));
 };

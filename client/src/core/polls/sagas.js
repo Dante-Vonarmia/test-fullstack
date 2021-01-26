@@ -2,7 +2,7 @@ import { call, put, fork, select, takeLatest } from 'redux-saga/effects';
 import { SubmissionError, reset } from 'redux-form';
 import history from '../history';
 import { getAuthedUser } from '../users';
-import { pollRequestActions, getPollsApi, postPollApi, updatePollVoteApi } from '../polls';
+import { pollRequestActions, getPollsApi, postPollApi, updatePollVoteApi, getActivePoll } from '../polls';
 import * as TYPES from '../constants';
 
 
@@ -21,13 +21,12 @@ export function* getPollsSaga() {
 };
 
 export function* postPollSaga(action) {
-  const { title, votes, resolve, reject } = action.payload;
+  const { title, resolve, reject } = action.payload;
   try {
     let authedUser = yield select(getAuthedUser);
     const user = (!!authedUser ? authedUser : { name: 'public', cuid: 'public' });
     const response = yield call(postPollApi, {
       title,
-      votes,
       user_id: user.cuid,
       user_name: user.name
     });
@@ -48,18 +47,16 @@ export function* postPollSuccessSaga() {
 };
 
 export function* updatePollVoteSaga(action) {
-  // TODO
-  // Use more simple way to alter vote count
-  const { vote, resolve, reject } = action.payload;
+  // TODO use form data to get poll cuid
+  const { pollId, resolve, reject } = action.payload;
   try {
     const authedUser = yield select(getAuthedUser);
     const user = (!!authedUser ? authedUser : { name: 'public', cuid: 'public' });
-    const activePoll = yield select(getActivePoll);
+    // const activePoll = yield select(getActivePoll);
     const response = yield call(updatePollVoteApi,
-      activePoll.cuid,
+      pollId, // poll cuid
       {
-        voterId: user.cuid,
-        votes: vote
+        voterId: user.cuid
       }
     );
     yield put(pollRequestActions.updateFulfilled({

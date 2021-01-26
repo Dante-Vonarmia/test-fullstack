@@ -24,7 +24,6 @@ function getPolls(req, res) {
 };
 
 function postPoll(req, res) {
-  console.log(req.body);
   const body = req.body;
   if (!body) {
     console.error('POST_POLL: Error, nothing given to create poll within request body.');
@@ -86,15 +85,11 @@ function postPoll(req, res) {
 };
 
 function updatePollVote(req, res) {
-  var id = req.params.pollId;
-  var body = req.body;
+  console.log(req.params);
+  const id = req.params.poll_id;
   if (!id) {
     console.error(`UPDATE_POLL_VOTE: Error, unable to find pollId within params '${req.params}'.`);
     res.statusMessage = `Unable to find pollId within params '${req.params}'.`;
-    res.status(412).end();
-  } else if (!body || !body.voterId) {
-    console.error(`UPDATE_POLL_VOTE: Error, nothing given to update poll with id '${id}:`, body);
-    res.statusMessage = `Prerequisite properties not met to update poll with id '${id}'.`;
     res.status(412).end();
   } else {
     const newDate = (new Date().toISOString());

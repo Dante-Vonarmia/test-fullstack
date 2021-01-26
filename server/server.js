@@ -34,7 +34,7 @@ app.use(function(req, res, next) {
 });
 
 // Temp Sample
-const url = 'http://localhost:9000';
+const url = 'http://localhost:' + process.env.PORT;
 
 app.use('/api', createProxyMiddleware({ target: url, changeOrigin: true }));
 
